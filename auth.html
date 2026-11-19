@@ -43,7 +43,6 @@
         include_granted_scopes: 'true',
         state: state
       });
-      if (CFG.HOSTED_DOMAIN) p.set('hd', CFG.HOSTED_DOMAIN);
       location.replace('https://accounts.google.com/o/oauth2/v2/auth?' + p.toString());
     });
   })();

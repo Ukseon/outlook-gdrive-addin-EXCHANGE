@@ -1,7 +1,7 @@
 // ===== 설정 =====
 window.ADDIN_CONFIG = {
   // Google Cloud Console에서 만든 OAuth 클라이언트 ID
-  GOOGLE_CLIENT_ID: 'YOUR_CLIENT_ID.apps.googleusercontent.com',
+  GOOGLE_CLIENT_ID: '789412548742-1db6ra3ohrk3eg7qk27v0ae8kikjql7j.apps.googleusercontent.com',
 
   // 회사 Google Workspace 도메인. 이 도메인 계정으로만 로그인할 수 있고,
   // 외부 공유가 막혀 있을 때 '사내 공유'로 대신 설정합니다.
