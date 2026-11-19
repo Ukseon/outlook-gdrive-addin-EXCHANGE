@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>대용량 첨부</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="config.js"></script>
+  <link rel="stylesheet" href="taskpane.css">
+</head>
+<body>
+  <header>
+    <div class="title">대용량 첨부 <span class="sub">Google Drive</span></div>
+    <div class="acct">
+      <span id="acct">확인 중…</span>
+      <button id="signin" class="link" hidden>로그인</button>
+      <button id="signout" class="link" hidden>로그아웃</button>
+    </div>
+  </header>
+
+  <div id="drop" class="drop">
+    <p>파일을 여기로 끌어 놓거나</p>
+    <button id="pick" class="primary">파일 선택</button>
+    <input id="file" type="file" multiple hidden>
+    <p class="hint">내 드라이브에 올린 뒤 <b>링크가 있는 모든 사용자(보기)</b>로 공유하고,<br>다운로드 링크를 메일 본문 커서 위치에 넣습니다.</p>
+  </div>
+
+  <div id="error" class="error" hidden></div>
+  <div id="status" class="status"></div>
+  <ul id="list" class="list"></ul>
+
+  <p class="foot">업로드가 끝날 때까지 이 창을 닫지 마세요.</p>
+  <script src="taskpane.js"></script>
+</body>
+</html>

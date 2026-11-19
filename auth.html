@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <title>Google 로그인</title>
+  <script src="https://appsforoffice.microsoft.com/lib/1/hosted/office.js"></script>
+  <script src="config.js"></script>
+  <style>body{font-family:'Segoe UI','Malgun Gothic',sans-serif;padding:24px;color:#333}</style>
+</head>
+<body>
+  <p id="msg">Google 로그인 페이지로 이동 중…</p>
+  <script>
+  (function () {
+    var CFG = window.ADDIN_CONFIG;
+    var self = location.origin + location.pathname;
+
+    function send(obj) {
+      try { Office.context.ui.messageParent(JSON.stringify(obj)); }
+      catch (e) { document.getElementById('msg').textContent = '이 창은 Outlook 추가 기능에서만 사용할 수 있습니다.'; }
+    }
+    function randomState() {
+      var a = new Uint8Array(16); crypto.getRandomValues(a);
+      return Array.prototype.map.call(a, function (b) { return ('0' + b.toString(16)).slice(-2); }).join('');
+    }
+
+    Office.onReady(function () {
+      var h = new URLSearchParams(location.hash.substring(1));
+      if (h.get('access_token') || h.get('error')) {
+        if (h.get('error')) return send({ error: h.get('error') });
+        var expected = sessionStorage.getItem('oauth_state');
+        sessionStorage.removeItem('oauth_state');
+        if (!expected || expected !== h.get('state')) return send({ error: 'state_mismatch' });
+        document.getElementById('msg').textContent = '로그인 완료. 잠시만 기다려 주세요…';
+        return send({ access_token: h.get('access_token'), expires_in: h.get('expires_in') });
+      }
+      var state = randomState();
+      sessionStorage.setItem('oauth_state', state);
+      var p = new URLSearchParams({
+        client_id: CFG.GOOGLE_CLIENT_ID,
+        redirect_uri: self,
+        response_type: 'token',
+        scope: 'https://www.googleapis.com/auth/drive.file',
+        include_granted_scopes: 'true',
+        state: state
+      });
+      if (CFG.HOSTED_DOMAIN) p.set('hd', CFG.HOSTED_DOMAIN);
+      location.replace('https://accounts.google.com/o/oauth2/v2/auth?' + p.toString());
+    });
+  })();
+  </script>
+</body>
+</html>
